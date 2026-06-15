@@ -2,40 +2,50 @@ package org.example.billingsystem.service;
 
 import org.example.billingsystem.exception.CustomerNotFoundException;
 import org.example.billingsystem.model.Customer;
+import org.example.billingsystem.repository.CustomerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Optional;
+
 @Service
 public class CustomerService {
 
-    private HashMap<String,Customer>customers=new HashMap<>();
+    @Autowired
+    CustomerRepository customerRepository;
 
     public Customer addCustomer(Customer customer){
-        customers.put(customer.getId(), customer);
+        customerRepository.save(customer);
         return customer;
     }
 
-    public Customer getById(String id){
-        if (customers.get(id)==null){
-            throw new CustomerNotFoundException("Student with this "+id+" is Not Found");
-        }
-        else {
-            return customers.get(id);
-        }
+    public Customer findById(long id){
+       Optional<Customer> customer=customerRepository.findById(id);
+       if(customer.isPresent()){
+           return customer.get();
+       }
+       else {
+           throw new CustomerNotFoundException("Customer With This id"+id+" Is Not Found");
+       }
+
     }
 
     public Collection<Customer> getAllCustomers(){
-        return customers.values();
+        return customerRepository.findAll();
     }
 
-    public Customer updateAccount(String id,Customer customer){
-        customers.put(id, customer);
-        return customer;
+    public Customer updateAccount(Long id,Customer customer){
+        findById(id);
+        customer.setId(id);
+        return customerRepository.save(customer);
+
     }
 
-    public String deleteAccount(String id) {
-        customers.remove(id);
+    public String deleteAccount(Long id) {
+        findById(id);
+        customerRepository.deleteById(id);
         return "Customer Deleted";
     }
 }
