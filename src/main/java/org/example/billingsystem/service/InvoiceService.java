@@ -3,6 +3,7 @@ package org.example.billingsystem.service;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.example.billingsystem.exception.CustomerNotFoundException;
+import org.example.billingsystem.exception.InvoiceNotFoundException;
 import org.example.billingsystem.model.Customer;
 import org.example.billingsystem.model.Invoice;
 import org.example.billingsystem.status.PaymentStatus;
@@ -49,6 +50,6 @@ public class InvoiceService {
                 return s;
             }
         }
-        throw new CustomerNotFoundException("Customer With This Id"+customerId+" is Not Found");
+        throw new InvoiceNotFoundException("Customer With this Id"+customerId+" Is Not Found");
     }
 }
