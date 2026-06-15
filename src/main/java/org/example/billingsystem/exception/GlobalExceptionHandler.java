@@ -14,4 +14,9 @@ public class GlobalExceptionHandler {
 
     }
 
+    @ExceptionHandler(PaymentNotFoundException.class)
+    public ResponseEntity<String>handlePaymentNotFound(PaymentNotFoundException e){
+        return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+    }
+
 }

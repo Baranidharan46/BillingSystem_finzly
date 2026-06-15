@@ -1,6 +1,7 @@
 package org.example.billingsystem.service;
 
 
+import org.example.billingsystem.exception.PaymentNotFoundException;
 import org.example.billingsystem.model.Invoice;
 import org.example.billingsystem.model.Payment;
 import org.example.billingsystem.status.PaymentStatus;
@@ -34,6 +35,8 @@ public class PaymentService {
             if (s.getCustomerId().equals(customerId)){
                 payments.add(s);
             }
+        }if(payments.isEmpty()){
+            throw new PaymentNotFoundException("Payment With This Id: "+customerId+" is Not Found");
         }
         return payments;
     }
