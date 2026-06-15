@@ -2,6 +2,7 @@ package org.example.billingsystem.controller;
 
 import org.example.billingsystem.model.Payment;
 import org.example.billingsystem.service.PaymentService;
+import org.example.billingsystem.status.PaymentMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,16 +18,16 @@ public class PaymentController {
     PaymentService paymentService;
 
 
-    @PostMapping("/pay/{customerId}/{invoiceId}")
-    public ResponseEntity<Payment> recordPayment(@PathVariable String customerId,@PathVariable String invoiceId,@RequestParam String paymentMethod){
+    @PostMapping("/{customerId}/{invoiceId}")
+    public ResponseEntity<Payment> recordPayment(@PathVariable Long customerId,@PathVariable Long invoiceId,@RequestParam PaymentMethod paymentMethod){
         Payment payment=paymentService.recordPayment(customerId, invoiceId, paymentMethod);
         return ResponseEntity.status(HttpStatus.CREATED).body(payment);
 
     }
 
-    @GetMapping("getPaymentByCustomerId/{customerId}")
-    public ResponseEntity <List<Payment>> getPayment(@PathVariable String customerId){
-        List<Payment>payment =paymentService.getTransactionHistory(customerId);
+    @GetMapping("/{customerId}")
+    public ResponseEntity <Payment> getPayment(@PathVariable Long customerId){
+        Payment payment =paymentService.getTransactionHistory(customerId);
         return ResponseEntity.status(HttpStatus.OK).body(payment);
 
     }

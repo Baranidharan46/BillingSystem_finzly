@@ -6,22 +6,29 @@ import org.example.billingsystem.exception.CustomerNotFoundException;
 import org.example.billingsystem.exception.InvoiceNotFoundException;
 import org.example.billingsystem.model.Customer;
 import org.example.billingsystem.model.Invoice;
+import org.example.billingsystem.repository.CustomerRepository;
+import org.example.billingsystem.repository.InvoiceRepository;
 import org.example.billingsystem.status.PaymentStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Optional;
 
 @Service
 public class InvoiceService {
     @Autowired
     CustomerService customerService;
+    @Autowired
+    InvoiceRepository invoiceRepository;
+    @Autowired
+    CustomerRepository customerRepository;
 
-    HashMap<String, Invoice>invoices=new HashMap<>();
 
-    public Invoice generateInvoice(String customerId,boolean isOnlinePayment,boolean isBeforeDueDate){
-        Customer getCustomerId=customerService.getById(customerId);
+
+    public Invoice generateInvoice(Long customerId,boolean isOnlinePayment,boolean isBeforeDueDate){
+        Customer getCustomerId=customerService.findById(customerId);
         double unitConsumed=getCustomerId.getUnitsConsumed();
 
 
@@ -36,20 +43,16 @@ public class InvoiceService {
             discount+=baseAmount*0.05;
             finalAmount=baseAmount-discount;
         }
-        Invoice invoice=new Invoice("Inv"+customerId,customerId,unitConsumed,baseAmount,discount,finalAmount,getCustomerId.getBillDueDate(),PaymentStatus.UNPAID);
-        invoices.put(customerId,invoice);
+        Invoice invoice=new Invoice(null,customerId,unitConsumed,baseAmount,discount,finalAmount,getCustomerId.getBillDueDate(),PaymentStatus.UNPAID);
+        invoiceRepository.save(invoice);
         return invoice;
 
     }
 
 
-    public Invoice getInvoiceByCustomerId(String customerId){
-        customerService.getById(customerId);
-        for (Invoice s:invoices.values()) {
-            if (s.getCustomerId().equals(customerId)) {
-                return s;
-            }
-        }
-        throw new InvoiceNotFoundException("Customer With this Id"+customerId+" Is Not Found");
+    public Invoice getInvoiceByCustomerId(Long customerId){
+        customerService.findById(customerId);
+        return invoiceRepository.findById(customerId)
+                .orElseThrow(()->new InvoiceNotFoundException("Invoice For This "+customerId+" Is Not Found"));
     }
 }

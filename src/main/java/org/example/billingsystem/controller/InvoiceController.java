@@ -1,6 +1,4 @@
 package org.example.billingsystem.controller;
-
-import org.example.billingsystem.model.Customer;
 import org.example.billingsystem.model.Invoice;
 import org.example.billingsystem.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +12,13 @@ public class InvoiceController {
     @Autowired
     InvoiceService invoiceService;
 
-    @PostMapping("/generateInvoice/{customerId}")
-    public ResponseEntity<Invoice> generateInvoice(@PathVariable String customerId, @RequestParam boolean isOnlinePayment,@RequestParam boolean isBeforeDueDate) {
+    @PostMapping("/{customerId}")
+    public ResponseEntity<Invoice> generateInvoice(@PathVariable Long customerId, @RequestParam boolean isOnlinePayment,@RequestParam boolean isBeforeDueDate) {
         Invoice invoice=invoiceService.generateInvoice(customerId,isOnlinePayment,isBeforeDueDate);
         return ResponseEntity.status(HttpStatus.CREATED).body(invoice);
     }
-    @GetMapping("/getCustomerInvoiceById/{customerId}")
-    public ResponseEntity <Invoice> getInvoiceById(@PathVariable String customerId){
+    @GetMapping("/{customerId}")
+    public ResponseEntity <Invoice> getInvoiceById(@PathVariable Long customerId){
         Invoice id=invoiceService.getInvoiceByCustomerId(customerId);
         return ResponseEntity.status(HttpStatus.OK).body(id);
     }

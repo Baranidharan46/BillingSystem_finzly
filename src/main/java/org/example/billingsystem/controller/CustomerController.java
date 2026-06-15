@@ -10,37 +10,37 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 
 @RestController
-@RequestMapping("/customer")
+@RequestMapping("v1/customer")
 public class CustomerController {
     @Autowired
     CustomerService customerService;
 
-    @PostMapping("/addCustomer")
+    @PostMapping
     public ResponseEntity<Customer> addCustomer(@RequestBody Customer customer){
         Customer saved=customerService.addCustomer(customer);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
-    @GetMapping("/getCustomerById/{id}")
-    public ResponseEntity<Customer> getById(@PathVariable String id){
-        Customer getById=customerService.getById(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<Customer> getById(@PathVariable long id){
+        Customer getById=customerService.findById(id);
         return ResponseEntity.status(HttpStatus.OK).body(getById);
     }
 
-    @GetMapping("/getAllCustomer")
+    @GetMapping
     public ResponseEntity <Collection<Customer>> getAll(){
         Collection<Customer> getAll= customerService.getAllCustomers();
         return ResponseEntity.status(HttpStatus.OK).body(getAll);
     }
 
-    @PutMapping("/updateAccount/{id}")
-    public ResponseEntity<Customer> updateAccount(@PathVariable String id,@RequestBody Customer customer){
+    @PatchMapping("/{id}")
+    public ResponseEntity<Customer> updateAccount(@PathVariable Long id,@RequestBody Customer customer){
         Customer updateAcc= customerService.updateAccount(id, customer);
         return ResponseEntity.status(HttpStatus.OK).body(updateAcc);
     }
 
-    @DeleteMapping("/deleteAccount/{id}")
-    public ResponseEntity<Void> deleteAccount(@PathVariable String id){
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAccount(@PathVariable Long id){
         customerService.deleteAccount(id);
         return ResponseEntity.noContent().build();
     }
