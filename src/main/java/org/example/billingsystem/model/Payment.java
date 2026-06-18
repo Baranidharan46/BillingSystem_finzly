@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Entity
 @Table (name = "payments")
 public class Payment {
@@ -18,9 +18,11 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long paymentId;
+    private String name;
     private Long customerId;
     private Long invoiceId;
-    private Double amount;
+    private Double finalAmount;
+    private Double unitsConsumed;
     private PaymentMethod paymentMethod;
     private LocalDate paymentDate;
     private PaymentStatus paymentStatus;

@@ -2,7 +2,11 @@ package org.example.billingsystem.service;
 
 
 import org.example.billingsystem.dtoObject.InvoiceResponseDTO;
+import org.example.billingsystem.dtoObject.PaymentRequestDTO;
+import org.example.billingsystem.dtoObject.PaymentResponseDTO;
+import org.example.billingsystem.exception.InvoiceNotFoundException;
 import org.example.billingsystem.exception.PaymentNotFoundException;
+import org.example.billingsystem.mapper.PaymentMapper;
 import org.example.billingsystem.model.Invoice;
 import org.example.billingsystem.model.Payment;
 import org.example.billingsystem.repository.InvoiceRepository;
@@ -26,18 +30,19 @@ public class PaymentService {
     InvoiceRepository invoiceRepository;
 
 
-    public Payment recordPayment(Long customerId, Long invoiceId, PaymentMethod paymentMethod){
+    public PaymentResponseDTO recordPayment(Long customerId,PaymentMethod paymentMethod){
 
         Invoice invoice = invoiceRepository.findByCustomerId(customerId)
-                .orElseThrow(()->new PaymentNotFoundException("Payment With This "+customerId+" is Not Found"));
-        Payment payment=new Payment(null,customerId,invoiceId, invoice.getFinalAmount(),paymentMethod,LocalDate.now(),PaymentStatus.PAID);
+                .orElseThrow(()->new InvoiceNotFoundException("Invoice With This CustomerId : "+customerId+" is Not Found"));
         invoice.setPaymentStatus(PaymentStatus.PAID);
+        Payment payment=new Payment(null,invoice.getName(),customerId,invoice.getInvoiceId(),invoice.getFinalAmount(), invoice.getUnitsConsumed(), paymentMethod,LocalDate.now(),invoice.getPaymentStatus());
         paymentRepository.save(payment);
         invoiceRepository.save(invoice);
-        return payment;
+        return PaymentMapper.toResponse(payment);
     }
-    public Payment getTransactionHistory(Long customerId) {
-        return paymentRepository.findByCustomerId(customerId)
+    public PaymentResponseDTO getTransactionHistory(Long customerId) {
+        Payment payment=paymentRepository.findByCustomerId(customerId)
                 .orElseThrow(()->new PaymentNotFoundException("Transaction History For This "+customerId+" is Not Found"));
+        return PaymentMapper.toResponse(payment);
     }
 }

@@ -3,6 +3,7 @@ package org.example.billingsystem.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.example.billingsystem.status.PaymentMethod;
 import org.example.billingsystem.status.PaymentStatus;
 
 import java.time.LocalDate;
@@ -26,5 +27,7 @@ public class Invoice {
     private double finalAmount;
     private LocalDate dueDate;
     private PaymentStatus paymentStatus;
+    private PaymentMethod paymentMethod;
+    private LocalDate paymentDate;
 
 }

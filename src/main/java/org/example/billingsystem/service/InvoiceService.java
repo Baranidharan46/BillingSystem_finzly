@@ -13,6 +13,8 @@ import org.example.billingsystem.status.PaymentStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 public class InvoiceService {
 
@@ -46,7 +48,17 @@ public class InvoiceService {
         finalAmount=baseAmount-discount;
 
 
-        Invoice invoice = new Invoice(null, getCustomerId.getId(),getCustomerName,unitConsumed, baseAmount, discount, finalAmount, dto.getDueDate(), PaymentStatus.UNPAID);
+        Invoice invoice = new Invoice();
+        invoice.setName(getCustomerName);
+        invoice.setCustomerId(getCustomerId.getId());
+        invoice.setUnitsConsumed(unitConsumed);
+        invoice.setPaymentStatus(PaymentStatus.UNPAID);
+        invoice.setDiscount(discount);
+        invoice.setBaseAmount(baseAmount);
+        invoice.setDueDate(LocalDate.now());
+        invoice.setFinalAmount(finalAmount);
+        invoice.setPaymentMethod(null);
+        invoice.setPaymentDate(null);
         invoiceRepository.save(invoice);
         return InvoiceMapper.toResponseDTO(invoice);
 
