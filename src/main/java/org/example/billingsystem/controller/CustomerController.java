@@ -1,6 +1,9 @@
 package org.example.billingsystem.controller;
 
 import jakarta.validation.Valid;
+import org.example.billingsystem.dtoObject.CustomerRequestDTO;
+import org.example.billingsystem.dtoObject.CustomerResponseDTO;
+import org.example.billingsystem.mapper.CustomerMapper;
 import org.example.billingsystem.model.Customer;
 import org.example.billingsystem.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-
 @RestController
 @RequestMapping("v1/customer")
 public class CustomerController {
@@ -18,15 +19,15 @@ public class CustomerController {
     CustomerService customerService;
 
     @PostMapping
-    public ResponseEntity<Customer> addCustomer(@Valid @RequestBody Customer customer){
-        Customer saved=customerService.addCustomer(customer);
-        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    public ResponseEntity<Customer> addCustomer(@Valid @RequestBody CustomerRequestDTO dto){
+        Customer customer= CustomerMapper.toEntity(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(customerService.addCustomer(customer));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Customer> getById(@PathVariable long id){
-        Customer getById=customerService.findById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(getById);
+    public ResponseEntity<CustomerResponseDTO> getById(@PathVariable long id){
+        CustomerResponseDTO customer=customerService.getCustomerById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(customer);
     }
 
     @GetMapping

@@ -1,14 +1,14 @@
 package org.example.billingsystem.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 import org.example.billingsystem.status.PaymentStatus;
 
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -17,9 +17,9 @@ import java.time.LocalDate;
 public class Invoice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long invoiceId;
     private Long customerId;
+    private String name;
     private double unitsConsumed;
     private double baseAmount;
     private double discount;

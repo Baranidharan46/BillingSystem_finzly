@@ -1,5 +1,6 @@
 package org.example.billingsystem.controller;
-import org.example.billingsystem.model.Invoice;
+import org.example.billingsystem.dtoObject.InvoiceRequestDTO;
+import org.example.billingsystem.dtoObject.InvoiceResponseDTO;
 import org.example.billingsystem.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,14 +13,14 @@ public class InvoiceController {
     @Autowired
     InvoiceService invoiceService;
 
-    @PostMapping("/{customerId}")
-    public ResponseEntity<Invoice> generateInvoice(@PathVariable Long customerId, @RequestParam boolean isOnlinePayment,@RequestParam boolean isBeforeDueDate) {
-        Invoice invoice=invoiceService.generateInvoice(customerId,isOnlinePayment,isBeforeDueDate);
-        return ResponseEntity.status(HttpStatus.CREATED).body(invoice);
+    @PostMapping
+    public ResponseEntity<InvoiceResponseDTO> generateInvoice(@RequestBody InvoiceRequestDTO dto, @RequestParam boolean isOnlinePayment, @RequestParam boolean isBeforeDueDate) {
+        InvoiceResponseDTO responseDTO=invoiceService.generateInvoice(dto,isBeforeDueDate,isOnlinePayment);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
     }
     @GetMapping("/{customerId}")
-    public ResponseEntity <Invoice> getInvoiceById(@PathVariable Long customerId){
-        Invoice id=invoiceService.getInvoiceByCustomerId(customerId);
+    public ResponseEntity <InvoiceResponseDTO> getInvoiceById(@PathVariable Long customerId){
+        InvoiceResponseDTO id=invoiceService.getInvoiceByCustomerId(customerId);
         return ResponseEntity.status(HttpStatus.OK).body(id);
     }
 }

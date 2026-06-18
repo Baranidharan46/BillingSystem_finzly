@@ -1,6 +1,7 @@
 package org.example.billingsystem.service;
 
 
+import org.example.billingsystem.dtoObject.InvoiceResponseDTO;
 import org.example.billingsystem.exception.PaymentNotFoundException;
 import org.example.billingsystem.model.Invoice;
 import org.example.billingsystem.model.Payment;
@@ -27,7 +28,8 @@ public class PaymentService {
 
     public Payment recordPayment(Long customerId, Long invoiceId, PaymentMethod paymentMethod){
 
-        Invoice invoice = invoiceService.getInvoiceByCustomerId(customerId);
+        Invoice invoice = invoiceRepository.findByCustomerId(customerId)
+                .orElseThrow(()->new PaymentNotFoundException("Payment With This "+customerId+" is Not Found"));
         Payment payment=new Payment(null,customerId,invoiceId, invoice.getFinalAmount(),paymentMethod,LocalDate.now(),PaymentStatus.PAID);
         invoice.setPaymentStatus(PaymentStatus.PAID);
         paymentRepository.save(payment);
@@ -38,5 +40,4 @@ public class PaymentService {
         return paymentRepository.findByCustomerId(customerId)
                 .orElseThrow(()->new PaymentNotFoundException("Transaction History For This "+customerId+" is Not Found"));
     }
-
 }
