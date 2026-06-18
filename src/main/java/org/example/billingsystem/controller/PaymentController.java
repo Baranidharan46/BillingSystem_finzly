@@ -1,5 +1,6 @@
 package org.example.billingsystem.controller;
 
+import org.example.billingsystem.dtoObject.PaymentResponseDTO;
 import org.example.billingsystem.model.Payment;
 import org.example.billingsystem.service.PaymentService;
 import org.example.billingsystem.status.PaymentMethod;
@@ -17,17 +18,17 @@ public class PaymentController {
     PaymentService paymentService;
 
 
-    @PostMapping("/{customerId}/{invoiceId}")
-    public ResponseEntity<Payment> recordPayment(@PathVariable Long customerId,@PathVariable Long invoiceId,@RequestParam PaymentMethod paymentMethod){
-        Payment payment=paymentService.recordPayment(customerId, invoiceId, paymentMethod);
+    @PostMapping("/{customerId}")
+    public ResponseEntity<PaymentResponseDTO> recordPayment(@PathVariable Long customerId,@RequestParam PaymentMethod paymentMethod){
+        PaymentResponseDTO payment=paymentService.recordPayment(customerId,paymentMethod);
         return ResponseEntity.status(HttpStatus.CREATED).body(payment);
 
     }
 
     @GetMapping("/{customerId}")
-    public ResponseEntity <Payment> getPayment(@PathVariable Long customerId){
-        Payment payment =paymentService.getTransactionHistory(customerId);
-        return ResponseEntity.status(HttpStatus.OK).body(payment);
+    public ResponseEntity <PaymentResponseDTO> getPayment(@PathVariable Long customerId){
+        PaymentResponseDTO dto =paymentService.getTransactionHistory(customerId);
+        return ResponseEntity.status(HttpStatus.OK).body(dto);
 
     }
 }
