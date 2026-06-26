@@ -1,5 +1,6 @@
 package org.example.billingsystem.service;
 
+import org.example.billingsystem.config.SecurityConfig;
 import org.example.billingsystem.dtoObject.CustomerResponseDTO;
 import org.example.billingsystem.exception.CustomerNotFoundException;
 import org.example.billingsystem.exception.InvoiceNotFoundException;
@@ -12,10 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.Optional;
 
 @Service
@@ -24,14 +24,17 @@ public class CustomerService {
 
     CustomerRepository customerRepository;
     InvoiceRepository invoiceRepository;
+    PasswordEncoder passwordEncoder;
 
     @Autowired
-    public CustomerService(CustomerRepository customerRepository, InvoiceRepository invoiceRepository){
+    public CustomerService(CustomerRepository customerRepository, InvoiceRepository invoiceRepository,PasswordEncoder passwordEncoder){
         this.customerRepository=customerRepository;
         this.invoiceRepository=invoiceRepository;
+        this.passwordEncoder=passwordEncoder;
     }
 
     public Customer addCustomer(Customer customer){
+        customer.setPassword(passwordEncoder.encode(customer.getPassword()));
         customerRepository.save(customer);
         return customer;
     }
@@ -44,25 +47,23 @@ public class CustomerService {
        else {
            throw new CustomerNotFoundException("Customer With This id"+id+" Is Not Found");
        }
-
     }
 
-    public Page<Customer> getAllCustomers(int page, int size){
+    public Page<CustomerResponseDTO> getAllCustomers(int page, int size){
         Pageable pageable= PageRequest.of(page,size);
-        return customerRepository.findAll(pageable);
+        Page<Customer>customers=customerRepository.findAll(pageable);
+        return customers.map(CustomerMapper::toResponseDto);
     }
 
     public Customer updateAccount(Long id,Customer customer){
         findById(id);
         customer.setId(id);
         return customerRepository.save(customer);
-
     }
 
-    public String deleteAccount(Long id) {
+    public void deleteAccount(Long id) {
         findById(id);
         customerRepository.deleteById(id);
-        return "Customer Deleted";
     }
 
     public CustomerResponseDTO getCustomerById(Long id){
@@ -73,3 +74,9 @@ public class CustomerService {
         return CustomerMapper.toResponseDto(customer,invoice);
     }
 }
+
+
+//List<Customer>customerList=customerRepository.findAll(pageable).getContent()
+//        .stream().filter(customer -> customer.getId()>10)
+//        .collect(Collectors.toList());
+//        return customerList;

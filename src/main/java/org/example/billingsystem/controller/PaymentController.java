@@ -1,5 +1,6 @@
 package org.example.billingsystem.controller;
 
+import jakarta.validation.Valid;
 import org.example.billingsystem.dtoObject.PaymentResponseDTO;
 import org.example.billingsystem.model.Payment;
 import org.example.billingsystem.service.PaymentService;
@@ -19,14 +20,14 @@ public class PaymentController {
 
 
     @PostMapping("/{customerId}")
-    public ResponseEntity<PaymentResponseDTO> recordPayment(@PathVariable Long customerId,@RequestParam PaymentMethod paymentMethod){
+    public ResponseEntity<PaymentResponseDTO> recordPayment(@Valid @PathVariable Long customerId, @RequestParam PaymentMethod paymentMethod){
         PaymentResponseDTO payment=paymentService.recordPayment(customerId,paymentMethod);
         return ResponseEntity.status(HttpStatus.CREATED).body(payment);
 
     }
 
     @GetMapping("/{customerId}")
-    public ResponseEntity <PaymentResponseDTO> getPayment(@PathVariable Long customerId){
+    public ResponseEntity <PaymentResponseDTO> getPayment(@Valid @PathVariable Long customerId){
         PaymentResponseDTO dto =paymentService.getTransactionHistory(customerId);
         return ResponseEntity.status(HttpStatus.OK).body(dto);
 

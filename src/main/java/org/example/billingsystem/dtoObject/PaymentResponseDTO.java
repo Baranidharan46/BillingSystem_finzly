@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class PaymentResponseDTO {
-    private String paymentID;
+    private Long paymentId;
     private String name;
     private Long customerId;
     private Double unitsConsumed;

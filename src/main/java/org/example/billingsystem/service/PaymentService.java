@@ -36,9 +36,9 @@ public class PaymentService {
                 .orElseThrow(()->new InvoiceNotFoundException("Invoice With This CustomerId : "+customerId+" is Not Found"));
         invoice.setPaymentStatus(PaymentStatus.PAID);
         Payment payment=new Payment(null,invoice.getName(),customerId,invoice.getInvoiceId(),invoice.getFinalAmount(), invoice.getUnitsConsumed(), paymentMethod,LocalDate.now(),invoice.getPaymentStatus());
-        paymentRepository.save(payment);
         invoiceRepository.save(invoice);
-        return PaymentMapper.toResponse(payment);
+        Payment savedPayment = paymentRepository.save(payment);
+        return PaymentMapper.toResponse(savedPayment);
     }
     public PaymentResponseDTO getTransactionHistory(Long customerId) {
         Payment payment=paymentRepository.findByCustomerId(customerId)

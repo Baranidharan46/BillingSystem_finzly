@@ -24,4 +24,8 @@ public class CustomerRequestDTO {
     private Double unitsConsumed;
     @NotNull
     private LocalDate billDueDate;
+    @NotBlank
+    private String password;
+    @NotBlank
+    private String username;
 }
