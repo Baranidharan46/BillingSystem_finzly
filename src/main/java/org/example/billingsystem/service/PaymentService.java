@@ -1,8 +1,5 @@
 package org.example.billingsystem.service;
 
-
-import org.example.billingsystem.dtoObject.InvoiceResponseDTO;
-import org.example.billingsystem.dtoObject.PaymentRequestDTO;
 import org.example.billingsystem.dtoObject.PaymentResponseDTO;
 import org.example.billingsystem.exception.InvoiceNotFoundException;
 import org.example.billingsystem.exception.PaymentNotFoundException;
@@ -29,6 +26,11 @@ public class PaymentService {
     @Autowired
     InvoiceRepository invoiceRepository;
 
+    public PaymentService(InvoiceService invoiceService,PaymentRepository paymentRepository,InvoiceRepository invoiceRepository){
+        this.invoiceService=invoiceService;
+        this.invoiceRepository=invoiceRepository;
+        this.paymentRepository=paymentRepository;
+    }
 
     public PaymentResponseDTO recordPayment(Long customerId,PaymentMethod paymentMethod){
 
