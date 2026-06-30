@@ -9,10 +9,9 @@ import java.time.LocalDate;
 @Setter
 public class CustomerResponseDTO {
 
+    private String username;
     private String name;
     private Long id;
     private Double unitsConsumed;
     private LocalDate billDueDate;
-    private PaymentStatus paymentStatus;
-    private Double finalAmount;
 }

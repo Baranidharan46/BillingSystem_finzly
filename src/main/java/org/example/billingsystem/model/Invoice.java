@@ -26,7 +26,9 @@ public class Invoice {
     private double discount;
     private double finalAmount;
     private LocalDate dueDate;
+    @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
+    @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
     private LocalDate paymentDate;
 

@@ -2,12 +2,7 @@ package org.example.billingsystem.mapper;
 
 import org.example.billingsystem.dtoObject.CustomerRequestDTO;
 import org.example.billingsystem.dtoObject.CustomerResponseDTO;
-import org.example.billingsystem.dtoObject.InvoiceResponseDTO;
 import org.example.billingsystem.model.Customer;
-import org.example.billingsystem.model.Invoice;
-import org.example.billingsystem.service.InvoiceService;
-
-import java.time.LocalDate;
 
 public class CustomerMapper {
     public static Customer toEntity(CustomerRequestDTO dto){
@@ -17,17 +12,21 @@ public class CustomerMapper {
         customer.setPhoneNo(dto.getPhoneNo());
         customer.setBillDueDate(dto.getBillDueDate());
         customer.setUnitsConsumed(dto.getUnitsConsumed());
+        customer.setUsername(dto.getUsername());
+        customer.setPassword(dto.getPassword());
         return customer;
     }
 
-    public static CustomerResponseDTO toResponseDto(Customer customer, Invoice invoice){
-        CustomerResponseDTO dto=new CustomerResponseDTO();
-        dto.setName(customer.getName());
+    public static CustomerResponseDTO toResponseDto(Customer customer) {
+
+        CustomerResponseDTO dto = new CustomerResponseDTO();
+
         dto.setId(customer.getId());
-        dto.setBillDueDate(customer.getBillDueDate());
+        dto.setName(customer.getName());
+        dto.setUsername(customer.getUsername());
         dto.setUnitsConsumed(customer.getUnitsConsumed());
-        dto.setPaymentStatus(invoice.getPaymentStatus());
-        dto.setFinalAmount(invoice.getFinalAmount());
+        dto.setBillDueDate(customer.getBillDueDate());
+
         return dto;
     }
 }

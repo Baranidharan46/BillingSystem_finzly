@@ -28,6 +28,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(InvalidPaymentException.class)
+    public ResponseEntity<String>handleInvalidPayment(InvalidPaymentException e){
+        return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> handleNotValidException(MethodArgumentNotValidException e) {
         List<FieldError> errors = e.getBindingResult().getFieldErrors();

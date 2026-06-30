@@ -9,14 +9,15 @@ public class PaymentMapper {
 
     public static Payment toEntity(PaymentRequestDTO dto){
         Payment payment=new Payment();
-        payment.setCustomerId(payment.getCustomerId());
-        payment.setFinalAmount(payment.getFinalAmount());
-        payment.setPaymentMethod(payment.getPaymentMethod());
+        payment.setCustomerId(dto.getCustomerId());
+        payment.setFinalAmount(dto.getFinalAmount());
+        payment.setPaymentMethod(dto.getPaymentMethod());
         return payment;
     }
 
     public static PaymentResponseDTO toResponse(Payment payment) {
         PaymentResponseDTO paymentResponse=new PaymentResponseDTO();
+        paymentResponse.setPaymentId(payment.getPaymentId());
         paymentResponse.setCustomerId(payment.getCustomerId());
         paymentResponse.setName(payment.getName());
         paymentResponse.setUnitsConsumed(payment.getUnitsConsumed());
