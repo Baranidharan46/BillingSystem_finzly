@@ -1,5 +1,4 @@
-package org.example.billingsystem.service;
-import org.example.billingsystem.config.UserPrincipal;
+package org.example.billingsystem.security;
 import org.example.billingsystem.model.Customer;
 import org.example.billingsystem.repository.CustomerRepository;
 import org.slf4j.Logger;

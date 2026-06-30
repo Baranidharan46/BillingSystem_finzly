@@ -7,7 +7,7 @@ import org.example.billingsystem.dtoObject.CustomerResponseDTO;
 import org.example.billingsystem.mapper.CustomerMapper;
 import org.example.billingsystem.model.Customer;
 import org.example.billingsystem.service.CustomerService;
-import org.example.billingsystem.service.JwtService;
+import org.example.billingsystem.security.JwtService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

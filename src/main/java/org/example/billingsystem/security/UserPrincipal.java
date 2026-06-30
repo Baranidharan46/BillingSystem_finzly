@@ -1,4 +1,4 @@
-package org.example.billingsystem.config;
+package org.example.billingsystem.security;
 
 import org.example.billingsystem.model.Customer;
 import org.example.billingsystem.repository.CustomerRepository;

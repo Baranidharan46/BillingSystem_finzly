@@ -1,4 +1,4 @@
-package org.example.billingsystem.service;
+package org.example.billingsystem.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;

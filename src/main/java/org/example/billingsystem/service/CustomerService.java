@@ -1,6 +1,5 @@
 package org.example.billingsystem.service;
 
-import org.example.billingsystem.config.SecurityConfig;
 import org.example.billingsystem.dtoObject.CustomerResponseDTO;
 import org.example.billingsystem.exception.CustomerNotFoundException;
 import org.example.billingsystem.mapper.CustomerMapper;

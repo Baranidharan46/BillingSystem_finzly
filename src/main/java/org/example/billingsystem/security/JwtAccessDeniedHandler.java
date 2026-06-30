@@ -1,4 +1,4 @@
-package org.example.billingsystem.config;
+package org.example.billingsystem.security;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

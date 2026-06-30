@@ -1,6 +1,5 @@
-package org.example.billingsystem.config;
+package org.example.billingsystem.security;
 
-import org.example.billingsystem.service.JwtFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

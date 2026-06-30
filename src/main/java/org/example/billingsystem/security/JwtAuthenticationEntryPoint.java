@@ -1,4 +1,4 @@
-package org.example.billingsystem.config;
+package org.example.billingsystem.security;
 
 import io.jsonwebtoken.io.IOException;
 import jakarta.servlet.http.HttpServletRequest;
