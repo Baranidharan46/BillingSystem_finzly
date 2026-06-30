@@ -23,8 +23,10 @@ public class Payment {
     private Long invoiceId;
     private Double finalAmount;
     private Double unitsConsumed;
+    @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
     private LocalDate paymentDate;
+    @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
 
 }

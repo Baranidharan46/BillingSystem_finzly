@@ -3,3 +3,9 @@ INSERT INTO customers (name, username, password, email, phone_no, units_consumed
 INSERT INTO customers (name, username, password, email, phone_no, units_consumed, bill_due_date) VALUES ('Priya', 'Priya', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'priya@gmail.com', '7777777777', 95.0, '2026-07-10');
 INSERT INTO customers (name, username, password, email, phone_no, units_consumed, bill_due_date) VALUES ('Raja', 'Raja', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'raja@gmail.com', '6666666666', 310.0, '2026-07-15');
 INSERT INTO customers (name, username, password, email, phone_no, units_consumed, bill_due_date) VALUES ('Admin', 'admin', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', 'admin@gmail.com', '5555555555', 50.0, '2026-07-20');
+
+-- Unpaid invoices for the first three customers. base_amount = units_consumed * 41.50, no discount.
+-- Raja and Admin are left without invoices so the "generate invoice" flow can be demoed live.
+INSERT INTO invoices (customer_id, name, units_consumed, base_amount, discount, final_amount, due_date, payment_status, payment_method, payment_date) VALUES (1, 'Barani', 120, 4980.00, 0, 4980.00, '2026-07-01', 'UNPAID', NULL, NULL);
+INSERT INTO invoices (customer_id, name, units_consumed, base_amount, discount, final_amount, due_date, payment_status, payment_method, payment_date) VALUES (2, 'Kumar', 200, 8300.00, 0, 8300.00, '2026-07-05', 'UNPAID', NULL, NULL);
+INSERT INTO invoices (customer_id, name, units_consumed, base_amount, discount, final_amount, due_date, payment_status, payment_method, payment_date) VALUES (3, 'Priya', 100, 4150.00, 0, 4150.00, '2026-07-10', 'UNPAID', NULL, NULL);

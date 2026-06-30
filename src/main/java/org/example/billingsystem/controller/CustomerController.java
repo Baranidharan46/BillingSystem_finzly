@@ -57,9 +57,9 @@ public class CustomerController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Customer> updateAccount(@Valid @PathVariable Long id,@Valid @RequestBody Customer customer){
+    public ResponseEntity<CustomerResponseDTO> updateAccount(@Valid @PathVariable Long id,@Valid @RequestBody Customer customer){
         Customer updateAcc= customerService.updateAccount(id, customer);
-        return ResponseEntity.status(HttpStatus.OK).body(updateAcc);
+        return ResponseEntity.status(HttpStatus.OK).body(CustomerMapper.toResponseDto(updateAcc));
     }
 
     @DeleteMapping("/{id}")

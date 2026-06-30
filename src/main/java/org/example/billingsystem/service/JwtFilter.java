@@ -32,7 +32,13 @@ public class JwtFilter extends OncePerRequestFilter {
 
         if(authHeader != null && authHeader.startsWith("Bearer ")){
             token = authHeader.substring(7); // removes "Bearer " (7 chars)
-            userName = jwtService.extractUserName(token);
+            try {
+                userName = jwtService.extractUserName(token);
+            } catch (Exception e) {
+                // Malformed/expired/invalid token: leave unauthenticated and let
+                // the security entry point return a clean 401 for protected routes.
+                userName = null;
+            }
         }
 
         if(userName != null && SecurityContextHolder.getContext().getAuthentication() == null){

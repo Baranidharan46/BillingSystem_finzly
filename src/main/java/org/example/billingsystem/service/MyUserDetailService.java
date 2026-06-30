@@ -2,6 +2,8 @@ package org.example.billingsystem.service;
 import org.example.billingsystem.config.UserPrincipal;
 import org.example.billingsystem.model.Customer;
 import org.example.billingsystem.repository.CustomerRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,6 +13,8 @@ import java.util.Optional;
 @Service
 public class MyUserDetailService implements UserDetailsService {
 
+    private static final Logger log = LoggerFactory.getLogger(MyUserDetailService.class);
+
     CustomerRepository customerRepository;
 
     public MyUserDetailService(CustomerRepository customerRepository){
@@ -19,13 +23,12 @@ public class MyUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("=== Loading user: " + username);
+        log.debug("Loading user by username={}", username);
         Optional<Customer> customer = customerRepository.findByUsername(username);
-        System.out.println("=== Found: " + customer.isPresent());
         if (customer.isEmpty()) {
+            log.warn("Authentication failed: username={} not found", username);
             throw new UsernameNotFoundException("Username is Not Found");
         }
-        System.out.println("=== Password from DB: " + customer.get().getPassword());
         return new UserPrincipal(customer.get());
     }
 }
