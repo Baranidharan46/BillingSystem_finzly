@@ -34,3 +34,6 @@ build/
 
 ### graphify output ###
 graphify-out/
+
+### logs ###
+logs/

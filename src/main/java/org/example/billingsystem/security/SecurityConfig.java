@@ -55,7 +55,10 @@ public class SecurityConfig {
         httpSecurity.authorizeHttpRequests(request -> request
                 .requestMatchers(HttpMethod.POST, "/v1/customer").permitAll()
                 .requestMatchers(HttpMethod.POST, "/v1/customer/login").permitAll()
+                .requestMatchers("/h2-console/**").permitAll()
                 .anyRequest().authenticated());
+        // The H2 console renders inside frames; allow same-origin frames so it displays.
+        httpSecurity.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
         httpSecurity.sessionManagement(session ->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();

@@ -30,6 +30,7 @@ public class InvoiceMapper {
         responseDTO.setDiscount(invoice.getDiscount());
         responseDTO.setUnitsConsumed(invoice.getUnitsConsumed());
         responseDTO.setPaymentStatus(invoice.getPaymentStatus());
+        responseDTO.setPaymentMethod(invoice.getPaymentMethod());
         responseDTO.setDueDate(invoice.getDueDate());
         return responseDTO;
     }

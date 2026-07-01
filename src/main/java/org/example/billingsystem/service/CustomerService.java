@@ -99,12 +99,7 @@ public class CustomerService {
     }
 
     public CustomerResponseDTO getCustomerById(Long id){
-        Customer customer=customerRepository.findById(id)
-                .orElseThrow(()-> {
-                    log.warn("Customer not found: id={}", id);
-                    return new CustomerNotFoundException("Customer With This Id "+id+" Is Not Found");
-                });
-        return CustomerMapper.toResponseDto(customer);
+        return CustomerMapper.toResponseDto(findById(id));
     }
 }
 

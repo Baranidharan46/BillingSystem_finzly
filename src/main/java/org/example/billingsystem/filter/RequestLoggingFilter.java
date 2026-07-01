@@ -50,3 +50,6 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
         }
     }
 }
+
+//gingFilter) that stamps each HTTP request with a short id on the MDC and logs an in/out line with status and timing, so every log for that request
+//is greppable by one id and you can see what came in, how it responded, and how long it took.
